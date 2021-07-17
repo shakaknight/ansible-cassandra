@@ -1,0 +1,25 @@
+---
+# tasks file for java
+---
+- name: Installing java in linux
+  when: ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "RedHat"
+  block:
+    - name: Installing java
+      package:
+        # name: java
+        name: java-1.8.0-openjdk
+        state: absent
+
+- name: Installing java in ubuntu
+  when: ansible_facts['distribution'] == "Ubuntu"
+  block:
+    - name: Update
+      apt:
+        update_cache: true
+        force_apt_get: true
+    - name: Installing java
+      become: true
+      become_user: root
+      package:
+        name: openjdk-8-jdk
+        state: present

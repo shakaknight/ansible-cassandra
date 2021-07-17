@@ -1,0 +1,8 @@
+---
+- hosts: cassandraMaster
+  gather_facts: True
+  become: yes
+  become_user: root
+  roles:
+    - java
+    - cassandraInstall

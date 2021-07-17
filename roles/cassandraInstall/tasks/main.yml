@@ -1,0 +1,41 @@
+---
+# tasks file for cassandraInstall
+- name: Installing elastic Serch in ubuntu
+  when: ansible_facts['distribution'] == "Ubuntu"
+  block:
+    # Add the Elasticsearch apt repo. For versions 6 of the stack - use '6.x-prerelease':
+    - name: Adding cassandra repo
+      apt_repository:
+        repo: deb http://www.apache.org/dist/cassandra/debian 40x main
+        state: present
+
+    - name: Add cassandra apt key
+      apt_key:
+        url: "https://www.apache.org/dist/cassandra/KEYS"
+        state: present
+
+    - name: Install cassandra with apt
+      apt:
+        name: cassandra
+        update_cache: yes
+
+    # Configurations
+
+    # - name: Updating the config file to allow outside access
+    #   lineinfile:
+    #     destfile: /etc/kibana/kibana.yml
+    #     regexp: "server.host:"
+    #     line: "server.host: 0.0.0.0"
+
+    # - name: Defining server port
+    #   lineinfile:
+    #     destfile: /etc/kibana/kibana.yml
+    #     regexp: "server.port:"
+    #     line: "server.port: 5601"
+
+    # - name: Defining Elasticsearch URL
+    #   lineinfile:
+    #     destfile: /etc/kibana/kibana.yml
+    #     regexp: "elasticsearch.hosts:"
+    #     line: 'elasticsearch.hosts: ["http://{{ elasticUrl }}:9200"]'
+    #   notify: Starting Kibana
