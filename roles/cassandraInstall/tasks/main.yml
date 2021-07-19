@@ -8,34 +8,22 @@
         url: "https://www.apache.org/dist/cassandra/KEYS"
         state: present
         
-    # Add the Elasticsearch apt repo. For versions 6 of the stack - use '6.x-prerelease':
+    # Add the Cassandra apt repo. For versions 6 of the stack - use '6.x-prerelease':
     - name: Adding cassandra repo
       apt_repository:
         repo: deb http://www.apache.org/dist/cassandra/debian 40x main
         state: present
-
+    #Install cassandra
     - name: Install cassandra with apt
       apt:
         name: cassandra
         update_cache: yes
 
-    # Configurations
+    # - name: Basic configuration
+    #   include_tasks: common-config.yml
 
-    # - name: Updating the config file to allow outside access
-    #   lineinfile:
-    #     destfile: /etc/kibana/kibana.yml
-    #     regexp: "server.host:"
-    #     line: "server.host: 0.0.0.0"
-
-    # - name: Defining server port
-    #   lineinfile:
-    #     destfile: /etc/kibana/kibana.yml
-    #     regexp: "server.port:"
-    #     line: "server.port: 5601"
-
-    # - name: Defining Elasticsearch URL
-    #   lineinfile:
-    #     destfile: /etc/kibana/kibana.yml
-    #     regexp: "elasticsearch.hosts:"
-    #     line: 'elasticsearch.hosts: ["http://{{ elasticUrl }}:9200"]'
-    #   notify: Starting Kibana
+    - name: Copy the template
+      template:
+        src: "cassandra.yaml.j2"
+        dest: "/etc/cassandra/cassandra.yaml"
+      notify: Starting Elasticsearch

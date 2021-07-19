@@ -2,6 +2,8 @@
 # tasks file for test
 - name: Print the hostname
   debug:
-    msg: "Hostname: {{host_name}}"
-    # {{group_names}}
-  when: '"elasticMaster" in group_names|string'
+    msg: "{{var}}"
+  # debug:
+  #   msg: "Hostname: {{host_name}}"
+  #   # {{group_names}}
+  # when: '"elasticMaster" in group_names|string'

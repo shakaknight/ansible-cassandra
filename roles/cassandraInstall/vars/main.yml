@@ -1,2 +1,6 @@
 ---
 # vars file for cassandraInstall
+cluster_name: my-cluster1
+# var: hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+seed1: 10.0.0.4
+seed2: 10.0.0.6
