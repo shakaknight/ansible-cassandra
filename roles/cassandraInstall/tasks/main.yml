@@ -27,3 +27,5 @@
         src: "cassandra.yaml.j2"
         dest: "/etc/cassandra/cassandra.yaml"
       notify: Starting Cassandra
+    # - name: Deleting default data set
+    #   shell: rm -rf /var/lib/cassandra/data/system/*
