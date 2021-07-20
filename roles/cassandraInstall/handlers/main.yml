@@ -1,11 +1,11 @@
 ---
 # handlers file for cassandraInstall
-- name: Starting Elasticsearch
+- name: Starting Cassandra
   service:
     name: cassandra
     state: started
 
-- name: Restarting Elasticsearch
+- name: Restarting Cassandra
   service:
     name: cassandra
     state: restarted
