@@ -22,10 +22,15 @@
     # - name: Basic configuration
     #   include_tasks: common-config.yml
 
+    - name: Adding intial master nodes
+      lineinfile:
+        destfile: /etc/cassandra/cassandra-env.sh
+        line: 'JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_dc=true"'
+
     - name: Copy the template
       template:
         src: "cassandra.yaml.j2"
         dest: "/etc/cassandra/cassandra.yaml"
-      notify: Starting Cassandra
+      notify: Restarting Cassandra
     # - name: Deleting default data set
     #   shell: rm -rf /var/lib/cassandra/data/system/*
