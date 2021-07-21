@@ -1,0 +1,17 @@
+---
+# tasks file for elasticUninstall
+- name: Uninstalling cassandra in linux
+  when: ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "RedHat"
+  block:
+    - name: Install cassandra
+      apt:
+        name: cassandra
+        state: absent
+
+- name: Uninstalling cassandra in ubuntu
+  when: ansible_facts['distribution'] == "Ubuntu"
+  block:
+    - name: uninstall cassandra
+      apt:
+        name: cassandra
+        state: absent

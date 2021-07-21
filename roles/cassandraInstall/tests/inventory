@@ -1,2 +1,27 @@
 localhost
 
+CREATE KEYSPACE IF NOT EXISTS academic
+  WITH REPLICATION = { 
+   'class' : 'SimpleStrategy',
+   'replication_factor' : 1 
+  };
+
+  USE academic;
+
+  CREATE TABLE IF NOT EXISTS student(
+   id       ascii PRIMARY KEY,
+   name     varchar,
+   ismale   boolean,   
+   dob      date,
+   hpnumber set<text>,
+   gpa      float
+);
+
+INSERT INTO student (id,name,ismale,dob) 
+VALUES ('201911007','Rajabasa',true,'2001-11-12') IF NOT EXISTS;
+INSERT INTO student (id,name,hpnumber) 
+VALUES ('202011003','Oryza Sativa',{'08123456789','0897654321'});
+INSERT INTO student (id,name,ismale,hpnumber) 
+VALUES ('202012004',' Zea May',false,{'0811223344'}) IF NOT EXISTS;
+
+SELECT * FROM student;

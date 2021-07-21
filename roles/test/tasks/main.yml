@@ -1,9 +1,36 @@
 ---
 # tasks file for test
-- name: Print the hostname
-  debug:
-    msg: "{{var}}"
+# - name: Print the hostname
+#   debug:
+#     msg: "{{var}}"
   # debug:
   #   msg: "Hostname: {{host_name}}"
   #   # {{group_names}}
   # when: '"elasticMaster" in group_names|string'
+# - name: list to delete
+#   shell: ls
+#   args:
+#     chdir: /home/knight/test
+#   register: files_list
+  
+- name: Deleting dexfauxlt data set
+  register: detail
+  # shell: pwd
+  template:
+    src: "test1.txt.j2"
+    dest: "/home/knight/test/test1.txt"
+  # with_items:
+  #   - "{{files_list.stdout_lines}}"
+- debug:
+    var: detail
+# - debug:
+#     var: files_list
+#   notify: Restarting Cassandra
+# - name: Printing the users.
+#   vars:
+#     arguments: [10.1,10.2,10.3]
+#   set_fact:
+#     vvar: "{{arguments.split(',')}}"
+
+# - debug:
+#     var: vvar   s
