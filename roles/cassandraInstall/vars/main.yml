@@ -1,6 +1,6 @@
 ---
 # vars file for cassandraInstall
-cluster_name: Test Cluster
+cluster_name: New Name
 # var: hostvars[inventory_hostname]['ansible_default_ipv4']['address']
 seeds: [10.0.0.4]
 endpoint: GossipingPropertyFileSnitch

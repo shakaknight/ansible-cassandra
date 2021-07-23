@@ -1,0 +1,26 @@
+- name: Default files to delete
+  shell: rm -rf /var/lib/cassandra/data/system/* 
+#   shell: ls
+#   args:
+#     chdir: /var/lib/cassandra/data/system/
+#   register: files_list
+  
+# - name: Deleting default data 
+#   register: detail
+#   file:
+#     state: absent
+#     path: /var/lib/cassandra/data/system/{{item}}
+#   with_items:
+#     - "{{files_list.stdout_lines}}"
+
+- name: Copy the template
+  template:
+    src: "cassandra.yaml.j2"
+    dest: "/etc/cassandra/cassandra.yaml"
+
+#Add this line if endpoint is GossipingPropertyFileSnitch
+- name: Adding JVM_OPTS if endpoint is GossipingPropertyFileSnitch
+  lineinfile:
+    destfile: /etc/cassandra/cassandra-env.sh
+    line: 'JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_dc=true"'
+  notify: Restarting Cassandra

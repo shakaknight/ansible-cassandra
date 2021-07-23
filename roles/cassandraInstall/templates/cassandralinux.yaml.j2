@@ -77,7 +77,7 @@ max_hints_delivery_threads: 2
 
 # Directory where Cassandra should store hints.
 # If not set, the default directory is $CASSANDRA_HOME/data/hints.
-# hints_directory: /var/lib/cassandra/hints
+hints_directory: /var/lib/cassandra/hints
 
 # How often hints should be flushed from the internal buffers to disk.
 # Will *not* trigger fsync.
@@ -459,7 +459,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "{% for arg1 in seeds %}{{arg1}}{% if not loop.last %},{% endif %}{% endfor %}" 
+          - seeds: "{% for arg1 in seeds %}{{arg1}}{% if not loop.last %},{% endif %}{% endfor %}"
 
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
@@ -1438,4 +1438,4 @@ enable_transient_replication: false
 # Enables the used of 'ALTER ... DROP COMPACT STORAGE' statements on this node.
 # 'ALTER ... DROP COMPACT STORAGE' is considered experimental and is not recommended for production use.
 enable_drop_compact_storage: false
-auto_bootstrap: false
+#auto_bootstrap: false

@@ -7,7 +7,7 @@
       package:
         # name: java
         name: java-1.8.0-openjdk
-        state: absent
+        state: present
 
 - name: Installing java in ubuntu
   when: ansible_facts['distribution'] == "Ubuntu"
@@ -16,6 +16,7 @@
       apt:
         update_cache: true
         force_apt_get: true
+
     - name: Installing java
       become: true
       become_user: root

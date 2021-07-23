@@ -1,4 +1,35 @@
 ---
+- name: Installing java in linux
+  when: ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "RedHat"
+  block:
+    - name: Linux - add cassandra repo
+      become: yes
+      template:
+        src: "cassandra.repo.j2"
+        dest: "/etc/yum.repos.d/cassandra.repo"
+
+    - name: Install Cassandra
+      become: yes
+      yum:
+        name: cassandra
+        state: present
+        update_cache: yes
+    
+    - name: Start cassandra
+      sysvinit:
+        name: cassandra
+        state: started
+        enabled: yes
+
+    # - name: Start cassandra
+    #   shell: service cassandra start
+      # systemd:
+      #   name: cassandra
+      #   state: started
+      
+    - name: Basic configuration
+      include_tasks: linux-config.yml
+
 # tasks file for cassandraInstall
 - name: Installing elastic Serch in ubuntu
   when: ansible_facts['distribution'] == "Ubuntu"
@@ -8,39 +39,17 @@
         url: "https://www.apache.org/dist/cassandra/KEYS"
         state: present
         
-    # Add the Cassandra apt repo. For versions 6 of the stack - use '6.x-prerelease':
+    # Add the Cassandra apt repo. For versions 6 of the stack - use '40x-release':
     - name: Adding cassandra repo
       apt_repository:
         repo: deb http://www.apache.org/dist/cassandra/debian 40x main
         state: present
+
     #Install cassandra
     - name: Install cassandra with apt
       apt:
         name: cassandra
         update_cache: yes
 
-    #Add this line if endpoint is GossipingPropertyFileSnitch
-    - name: Adding JVM_OPTS if endpoint is GossipingPropertyFileSnitch
-      lineinfile:
-        destfile: /etc/cassandra/cassandra-env.sh
-        line: 'JVM_OPTS="$JVM_OPTS -Dcassandra.ignore_dc=true"'
-
-    - name: Copy the template
-      template:
-        src: "cassandra.yaml.j2"
-        dest: "/etc/cassandra/cassandra.yaml"
-
-    - name: Default files to delete
-      shell: ls
-      args:
-        chdir: /var/lib/cassandra/data/system/
-      register: files_list
-      
-    - name: Deleting default data 
-      register: detail
-      file:
-        state: absent
-        path: /var/lib/cassandra/data/system/{{item}}
-      with_items:
-        - "{{files_list.stdout_lines}}"
-      notify: Restarting Cassandra
+    - name: Basic configuration
+      include_tasks: ubuntu-config.yml

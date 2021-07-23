@@ -3,8 +3,8 @@
 - name: Uninstalling cassandra in linux
   when: ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "RedHat"
   block:
-    - name: Install cassandra
-      apt:
+    - name: uninstall cassandra
+      yum:
         name: cassandra
         state: absent
 
